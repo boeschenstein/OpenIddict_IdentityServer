@@ -12,3 +12,8 @@ dotnet new web --name AuthorizationServer
 ```
 dotnet dev-certs https --trust
 ```
+
+## Add Cookie Authentication
+
+Use cookie authentication without ASP.NET Core Identity:
+<https://docs.microsoft.com/en-us/aspnet/core/security/authentication/cookie?view=aspnetcore-6.0>
