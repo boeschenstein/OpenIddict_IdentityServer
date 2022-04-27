@@ -221,3 +221,55 @@ Add redirect URI:
 ```cs
 RedirectUris = { new Uri("https://oauth.pstmn.io/v1/callback") },
 ```
+
+## Part V: OpenID Connect
+
+Part 5: <https://dev.to/robinvanderknaap/setting-up-an-authorization-server-with-openiddict-part-v-openid-connect-a8j>
+
+Add OIDC claim
+
+```cs
+new Claim(OpenIddictConstants.Claims.Email, "some@email").SetDestinations(OpenIddictConstants.Destinations.IdentityToken)
+```
+
+Add config
+
+```cs
+options
+    ...
+    .SetUserinfoEndpointUris("/connect/userinfo");
+
+options
+    ...
+    .EnableUserinfoEndpointPassthrough();
+```
+
+See new userinfo link in <https://localhost:5001/.well-known/openid-configuration>
+
+Add Endpoint:
+
+```cs
+[Authorize(AuthenticationSchemes = OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)]
+[HttpGet("~/connect/userinfo")]
+public async Task<IActionResult> Userinfo()
+{
+    var claimsPrincipal = (await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)).Principal;
+
+    return Ok(new
+    {
+        Name = claimsPrincipal.GetClaim(OpenIddictConstants.Claims.Subject),
+        Occupation = "Developer",
+        Age = 43
+    });
+}
+```
+
+This endpoint is authorized. Enabled Authorization:
+
+```cs
+app.UseAuthorization();
+```
+
+Call secure endpoint <https://localhost:5001/connect/userinfo> in Postman, using an Access token:
+
+![Postman Get Userinfo](_images/postman_OpenId_connect.png)

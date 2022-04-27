@@ -45,7 +45,8 @@ builder.Services.AddOpenIddict()
 
         options
             .SetAuthorizationEndpointUris("/connect/authorize") // for AuthorizationCodeFlow
-            .SetTokenEndpointUris("/connect/token");
+            .SetTokenEndpointUris("/connect/token")
+            .SetUserinfoEndpointUris("/connect/userinfo"); // part of OpenID Connect (OIDC)
 
         // Encryption and signing of tokens (DEVELOPMENT ONLY!)
         options
@@ -60,7 +61,8 @@ builder.Services.AddOpenIddict()
         options
             .UseAspNetCore()
             .EnableTokenEndpointPassthrough()
-            .EnableAuthorizationEndpointPassthrough(); // for AuthorizationCodeFlow
+            .EnableAuthorizationEndpointPassthrough() // for AuthorizationCodeFlow
+            .EnableUserinfoEndpointPassthrough();  // part of OpenID Connect (OIDC)
     });
 
 builder.Services.AddHostedService<TestData>(); // executes on app start
@@ -79,6 +81,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication(); // activate Authentication
+
+app.UseAuthorization(); // part of OpenID Connect (OIDC): Endpoint /connect/userinfo is secured
 
 app.UseEndpoints(endpoints =>
 {
