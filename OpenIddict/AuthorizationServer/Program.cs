@@ -43,6 +43,8 @@ builder.Services.AddOpenIddict()
             .AllowAuthorizationCodeFlow()
             .RequireProofKeyForCodeExchange(); // enable PKCE
 
+        options.AllowRefreshTokenFlow(); // for Refresh Token
+
         options
             .SetAuthorizationEndpointUris("/connect/authorize") // for AuthorizationCodeFlow
             .SetTokenEndpointUris("/connect/token")

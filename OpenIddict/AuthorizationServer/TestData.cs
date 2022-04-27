@@ -35,6 +35,8 @@ public class TestData : IHostedService
                         OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode, // for AuthorizationCodeFlow
                         OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
 
+                        OpenIddictConstants.Permissions.GrantTypes.RefreshToken, // for Refresh Token
+
                         OpenIddictConstants.Permissions.Prefixes.Scope + "api",
 
                         OpenIddictConstants.Permissions.ResponseTypes.Code // for AuthorizationCodeFlow

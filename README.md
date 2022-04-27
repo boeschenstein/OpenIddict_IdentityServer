@@ -273,3 +273,15 @@ app.UseAuthorization();
 Call secure endpoint <https://localhost:5001/connect/userinfo> in Postman, using an Access token:
 
 ![Postman Get Userinfo](_images/postman_OpenId_connect.png)
+
+## Part VI: Refresh tokens
+
+Part 6: <https://dev.to/robinvanderknaap/setting-up-an-authorization-server-with-openiddict-part-vi-refresh-tokens-5669>
+
+Get Access and Refersh Tokens:
+
+![Postman Get Refresh Token](_images/postman_refresh_token_part_1.png)
+
+Use Refresh Token:
+
+![Postman Get Userinfo](_images/postman_refresh_token_part_2.png)
