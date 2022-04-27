@@ -23,7 +23,7 @@ Use cookie authentication without ASP.NET Core Identity:
 
 Login/Logout buttons are working now.
 
-## Client Credentials Flow
+## Implement 'Client Credentials Flow'
 
 Part 3: <https://dev.to/robinvanderknaap/setting-up-an-authorization-server-with-openiddict-part-iii-client-credentials-flow-55lp>
 
@@ -82,7 +82,11 @@ Check implementation: https://localhost:5001/.well-known/openid-configuration
 
 Request-Headers according <https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.3>
 
-Post in Postman:
+
+Get access token, using Authentication tab in Postman:
+<https://learning.postman.com/docs/sending-requests/authorization/#oauth-20>
+
+Manually Post in Postman to get Access Token:
 
 ```bash
 curl --location --request POST 'https://localhost:5001/connect/token' \
@@ -94,10 +98,21 @@ curl --location --request POST 'https://localhost:5001/connect/token' \
 
 Result:
 
-````json
+```json
 {
   "access_token": "eyJhbGciOiJSU0EtT0FF...",
   "token_type": "Bearer",
   "expires_in": 3599
 }
 ```
+
+Disable token encryption
+
+```cs
+options
+    .AddEphemeralEncryptionKey()
+    .AddEphemeralSigningKey()
+    .DisableAccessTokenEncryption(); // disable token encryption
+```
+
+Check token in <https://jwt.io/>

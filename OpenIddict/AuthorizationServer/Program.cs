@@ -42,7 +42,8 @@ builder.Services.AddOpenIddict()
         // Encryption and signing of tokens (DEVELOPMENT ONLY!)
         options
             .AddEphemeralEncryptionKey()
-            .AddEphemeralSigningKey();
+            .AddEphemeralSigningKey()
+            .DisableAccessTokenEncryption(); // disable token encryption
 
         // Register scopes (permissions)
         options.RegisterScopes("api");
