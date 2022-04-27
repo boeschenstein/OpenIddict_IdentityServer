@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +11,49 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/account/login";
     });
+
+builder.Services.AddDbContext<DbContext>(options =>
+{
+    // Configure the context to use an in-memory store.
+    options.UseInMemoryDatabase(nameof(DbContext));
+
+    // Register the entity sets needed by OpenIddict.
+    options.UseOpenIddict();
+});
+
+builder.Services.AddOpenIddict()
+
+    // Register the OpenIddict core components.
+    .AddCore(options =>
+    {
+        // Configure OpenIddict to use the EF Core stores/models.
+        options
+            .UseEntityFrameworkCore()
+            .UseDbContext<DbContext>();
+    })
+
+    // Register the OpenIddict server components.
+    .AddServer(options =>
+    {
+        options.AllowClientCredentialsFlow();
+
+        options.SetTokenEndpointUris("/connect/token");
+
+        // Encryption and signing of tokens (DEVELOPMENT ONLY!)
+        options
+            .AddEphemeralEncryptionKey()
+            .AddEphemeralSigningKey();
+
+        // Register scopes (permissions)
+        options.RegisterScopes("api");
+
+        // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
+        options
+            .UseAspNetCore()
+            .EnableTokenEndpointPassthrough();
+    });
+
+builder.Services.AddHostedService<TestData>(); // executes on app start
 
 var app = builder.Build();
 
