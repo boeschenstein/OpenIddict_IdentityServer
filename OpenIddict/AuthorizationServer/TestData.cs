@@ -25,13 +25,19 @@ public class TestData : IHostedService
             {
                 ClientId = "postman",
                 ClientSecret = "postman-secret",
+                RedirectUris = { new Uri("https://oauth.pstmn.io/v1/callback") }, // for AuthorizationCodeFlow
                 DisplayName = "Postman",
                 Permissions =
                     {
+                        OpenIddictConstants.Permissions.Endpoints.Authorization, // for AuthorizationCodeFlow
                         OpenIddictConstants.Permissions.Endpoints.Token,
+
+                        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode, // for AuthorizationCodeFlow
                         OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
 
-                        OpenIddictConstants.Permissions.Prefixes.Scope + "api"
+                        OpenIddictConstants.Permissions.Prefixes.Scope + "api",
+
+                        OpenIddictConstants.Permissions.ResponseTypes.Code // for AuthorizationCodeFlow
                     }
             }, cancellationToken);
         }

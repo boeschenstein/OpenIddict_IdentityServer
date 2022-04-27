@@ -35,9 +35,17 @@ builder.Services.AddOpenIddict()
     // Register the OpenIddict server components.
     .AddServer(options =>
     {
+        // enable ClientCredentialsFlow
         options.AllowClientCredentialsFlow();
 
-        options.SetTokenEndpointUris("/connect/token");
+        // enable AuthorizationCodeFlow
+        options
+            .AllowAuthorizationCodeFlow()
+            .RequireProofKeyForCodeExchange(); // enable PKCE
+
+        options
+            .SetAuthorizationEndpointUris("/connect/authorize") // for AuthorizationCodeFlow
+            .SetTokenEndpointUris("/connect/token");
 
         // Encryption and signing of tokens (DEVELOPMENT ONLY!)
         options
@@ -51,7 +59,8 @@ builder.Services.AddOpenIddict()
         // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
         options
             .UseAspNetCore()
-            .EnableTokenEndpointPassthrough();
+            .EnableTokenEndpointPassthrough()
+            .EnableAuthorizationEndpointPassthrough(); // for AuthorizationCodeFlow
     });
 
 builder.Services.AddHostedService<TestData>(); // executes on app start
