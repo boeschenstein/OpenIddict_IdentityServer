@@ -277,6 +277,12 @@ Call secure endpoint <https://localhost:5001/connect/userinfo> in Postman, using
     - redirects back to postman: see response, press button "Use Token"
 2. Get Userinfo (Button 'Send')
 
+Manually:
+
+```
+curl --location --request GET 'https://localhost:5001/connect/userinfo' --header 'Authorization: Bearer eyJhbGciOiJSU...
+```
+
 ![Postman Get Userinfo](_images/postman_get_userinfo.png)
 
 ## Part VI: Refresh tokens
@@ -290,3 +296,7 @@ Get Access and Refersh Tokens:
 Use Refresh Token:
 
 ![Postman Get Userinfo](_images/postman_refresh_token_part_2.png)
+
+## OpenID Connect debugger
+
+[OpenID Connect debugger](_docs/oidcdebugger.md)
