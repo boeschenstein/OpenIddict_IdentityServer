@@ -272,7 +272,12 @@ app.UseAuthorization();
 
 Call secure endpoint <https://localhost:5001/connect/userinfo> in Postman, using an Access token:
 
-![Postman Get Userinfo](_images/postman_OpenId_connect.png)
+1. Get Access Token (Button 'Get New Access Token')
+    - Login to Server (first execution only)
+    - redirects back to postman: see response, press button "Use Token"
+2. Get Userinfo (Button 'Send')
+
+![Postman Get Userinfo](_images/postman_get_userinfo.png)
 
 ## Part VI: Refresh tokens
 
